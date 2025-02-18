@@ -1,0 +1,40 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.1.0@sha256:6559acbd5d770b15bb3c954629ce190ac3cbbdb2b7f1c30f0385c4e05104e218
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+    networks:
+      prom:
+    ports:
+      - 9090:9090
+  node-exporter:
+    image: prom/node-exporter:v1.8.2@sha256:4032c6d5bfd752342c3e631c2f1de93ba6b86c41db6b167b9a35372c139e7706
+    networks:
+      prom:
+    ports:
+      - 9100:9100
+  loki:
+    image: grafana/loki:3.4@sha256:58a6c186ce78ba04d58bfe2a927eff296ba733a430df09645d56cdc158f3ba08
+    volumes:
+      - "./loki-config.yml:/etc/loki/local-config.yaml"
+    networks:
+      prom:
+    ports:
+      - 3100:3100
+  promtail:
+    image: grafana/promtail:3.4@sha256:c6e9a987ca086cbfef945b8ebd708eb09f98b5e78bfb659e4e5a8b3bd604d11b
+    volumes:
+      - "./promtail-config.yml:/etc/promtail/config.yml"
+    networks:
+      prom:
+  grafana:
+    image: grafana/grafana:10.4.16-ubuntu@sha256:43dc40c568fce62fd5a27f208b02dceaeb9abf0f87d66196a4a14614a0b18b24
+    networks:
+      prom:
+    ports:
+      - 3000:3000
+
+
+networks:
+  prom:
+    driver: bridge
