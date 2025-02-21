@@ -29,7 +29,6 @@ services:
       prom:
     ports:
       - 80:80
-      - 8080:8080
   grafana:
     image: grafana/grafana:10.4.16-ubuntu@sha256:43dc40c568fce62fd5a27f208b02dceaeb9abf0f87d66196a4a14614a0b18b24
     networks:
