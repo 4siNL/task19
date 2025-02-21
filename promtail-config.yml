@@ -16,3 +16,8 @@ scrape_configs:
         labels:
           job: nginx
           __path__: /var/log/nginx/*
+    pipeline_stages:
+      - regex:
+          expression: 'HTTP/1\.1" (?P<status_code>\d{3})'
+      - labels:
+          status_code:
